@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title></title>
+  <meta name="description" content="$3">
+  <meta name="keywords" content="$4">
+  <link rel="stylesheet" href="https://necolas.github.io/normalize.css/3.0.2/normalize.css">
+  <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset200802.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+</head>
+
+<style>
+  .hide {
+    display: none;
+  }
+
+  #slide_banner {
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    background: #ddd;
+  }
+
+  #slide_banner li {
+    position: relative;
+  }
+
+  .slide_banner_loading {
+    position: relative;
+  }
+
+  .slide_banner_loading:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #eee;
+  }
+</style>
+
+<body>
+  <section id="slide_banner" class="slide_banner_loading">
+    <ul>
+      <li class="hide">
+        <h2>title1</h2>
+        <article>content1</article>
+        <img src="" alt="">
+      </li>
+      <li class="hide">
+        <h2>title2</h2>
+        <article>content2</article>
+        <img src="" alt="">
+      </li>
+      <li class="hide">
+        <h2>title3</h2>
+        <article>content3</article>
+        <img src="" alt="">
+      </li>
+      <li class="hide">
+        <h2>title4</h2>
+        <article>content4</article>
+        <img src="" alt="">
+      </li>
+      <li class="hide">
+        <h2>title5</h2>
+        <article>content5</article>
+        <img src="" alt="">
+      </li>
+    </ul>
+  </section>
+</body>
+<script>
+  var loop;
+  var loopTime = 6000;
+  var loopCountPrev = -1;
+  var loopCountCurrent = 0;
+  var slideBanner = document.querySelector('#slide_banner');
+  slideBanner.classList.remove('slide_banner_loading');
+  slideBannerList = slideBanner.querySelectorAll('li');
+  slideBannerListLength = slideBannerList.length;
+  loopCountPrev = slideBannerList.length - 1;
+  function loopStart() {
+    loop = setInterval(function () {
+      slideBannerList[loopCountCurrent].classList.remove('hide');
+      slideBannerList[loopCountPrev].classList.add('hide');
+      loopCountCurrent++;
+      loopCountPrev++;
+      if (loopCountCurrent === slideBannerListLength) {
+        loopCountCurrent = 0;
+      }
+      if (loopCountPrev === slideBannerListLength) {
+        loopCountPrev = 0;
+      }
+    }, loopTime);
+  }
+  function initDot(list) {
+    var length = list.length;
+    var dots = document.createElement('div');
+    for (var i = 0; i < length; i++) {
+      var dot = document.createElement('div');
+      dot.setAttribute('class', 'slide_banner_dots');
+      dot.setAttribute('data-count', i);
+      dot.innerHTML = i + 1;
+      dot.addEventListener('click', function () {
+        clearInterval(loop);
+        var count = this.getAttribute('data-count');
+        console.log('before', loopCountPrev);
+        slideBannerList[loopCountCurrent].classList.add('hide');
+        slideBannerList[loopCountPrev].classList.add('hide');
+        slideBannerList[count].classList.remove('hide');
+        loopCountCurrent = count;
+        loopCountPrev = count - 1;
+        if (loopCountPrev < 0) {
+          loopCountPrev = slideBannerListLength - 1;
+        }
+        console.log('after', loopCountPrev);
+        loopStart();
+      });
+      dots.appendChild(dot);
+    }
+    slideBanner.appendChild(dots);
+
+  }
+  loopStart();
+  initDot(slideBannerList);
+</script>
+
+</html>
