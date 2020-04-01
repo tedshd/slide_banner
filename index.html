@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset200802.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/device.js/0.2.7/device.min.js"></script>
 </head>
 
 <style>
@@ -24,10 +25,36 @@
     width: 100vw;
     height: 80vh;
     background: #ddd;
+    overflow: hidden;
   }
 
+  #slide_banner ul {
+    position:absolute;
+    left:0;
+    top:0;}
+  }
+
+  #slide_banner ul,
+  #slide_banner li {
+    width: 100%;
+    height: 100%;
+  }
   #slide_banner li {
     position: relative;
+    float: left;
+  }
+  #slide_banner li h2,
+  #slide_banner li article {
+    position: absolute;
+    z-index: 1;
+  }
+  #slide_banner li img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .slide_banner_loading {
@@ -43,6 +70,11 @@
     height: 100%;
     background: #eee;
   }
+  #slide_banner #slide_banner_dots {
+    position: absolute;
+    top: 50%;
+    right: 0;
+  }
 </style>
 
 <body>
@@ -51,85 +83,116 @@
       <li class="hide">
         <h2>title1</h2>
         <article>content1</article>
-        <img src="" alt="">
+        <img src="./1.png" alt="">
       </li>
       <li class="hide">
         <h2>title2</h2>
         <article>content2</article>
-        <img src="" alt="">
+        <img src="./2.png" alt="">
       </li>
       <li class="hide">
         <h2>title3</h2>
         <article>content3</article>
-        <img src="" alt="">
+        <img src="./3.png" alt="">
       </li>
       <li class="hide">
         <h2>title4</h2>
         <article>content4</article>
-        <img src="" alt="">
+        <img src="./4.png" alt="">
       </li>
       <li class="hide">
         <h2>title5</h2>
         <article>content5</article>
-        <img src="" alt="">
+        <img src="./5.png" alt="">
+      </li>
+      <li class="hide">
+        <h2>title6</h2>
+        <article>content6</article>
+        <img src="./6.png" alt="">
       </li>
     </ul>
   </section>
 </body>
 <script>
-  var loop;
-  var loopTime = 6000;
-  var loopCountPrev = -1;
-  var loopCountCurrent = 0;
-  var slideBanner = document.querySelector('#slide_banner');
-  slideBanner.classList.remove('slide_banner_loading');
-  slideBannerList = slideBanner.querySelectorAll('li');
-  slideBannerListLength = slideBannerList.length;
-  loopCountPrev = slideBannerList.length - 1;
-  function loopStart() {
-    loop = setInterval(function () {
-      slideBannerList[loopCountCurrent].classList.remove('hide');
-      slideBannerList[loopCountPrev].classList.add('hide');
-      loopCountCurrent++;
-      loopCountPrev++;
-      if (loopCountCurrent === slideBannerListLength) {
-        loopCountCurrent = 0;
-      }
-      if (loopCountPrev === slideBannerListLength) {
-        loopCountPrev = 0;
-      }
-    }, loopTime);
-  }
-  function initDot(list) {
-    var length = list.length;
-    var dots = document.createElement('div');
-    for (var i = 0; i < length; i++) {
-      var dot = document.createElement('div');
-      dot.setAttribute('class', 'slide_banner_dots');
-      dot.setAttribute('data-count', i);
-      dot.innerHTML = i + 1;
-      dot.addEventListener('click', function () {
-        clearInterval(loop);
-        var count = this.getAttribute('data-count');
-        console.log('before', loopCountPrev);
-        slideBannerList[loopCountCurrent].classList.add('hide');
-        slideBannerList[loopCountPrev].classList.add('hide');
-        slideBannerList[count].classList.remove('hide');
-        loopCountCurrent = count;
-        loopCountPrev = count - 1;
-        if (loopCountPrev < 0) {
-          loopCountPrev = slideBannerListLength - 1;
-        }
-        console.log('after', loopCountPrev);
-        loopStart();
-      });
-      dots.appendChild(dot);
-    }
-    slideBanner.appendChild(dots);
 
+  slideBanner({
+    time: 3000,
+    container: document.querySelector('#slide_banner')
+  });
+
+  function slideBanner(arg) {
+    var t = arg.time || 3000;
+    var container = arg.container;
+    if (!container) {
+      console.error('slideBanner: not set container');
+      return;
+    }
+    var loop;
+    var loopTime = 3000;
+    container.classList.remove('slide_banner_loading');
+    slideBannerList = container.querySelectorAll('li');
+    slideBannerListLength = slideBannerList.length;
+    var loopCountCurrent = 0;
+
+    function loopStart() {
+      loop = setInterval(function () {
+        slideBannerList[loopCountCurrent].classList.add('hide');
+        loopCountCurrent++;
+        if (loopCountCurrent === slideBannerListLength) {
+          loopCountCurrent = 0;
+        }
+        slideBannerList[loopCountCurrent].classList.remove('hide');
+      }, loopTime);
+    }
+
+    function initDot(list) {
+      var dots = document.createElement('div');
+      dots.setAttribute('id', 'slide_banner_dots');
+      for (var i = 0; i < list.length; i++) {
+        var dot = document.createElement('div');
+        dot.setAttribute('class', 'slide_banner_dot');
+        dot.setAttribute('data-count', i);
+        dot.innerHTML = i + 1;
+        dot.addEventListener('click', function () {
+          clearInterval(loop);
+          var count = this.getAttribute('data-count');
+          slideBannerList[loopCountCurrent].classList.add('hide');
+          slideBannerList[count].classList.remove('hide');
+          loopCountCurrent = count;
+          loopStart();
+        });
+        dots.appendChild(dot);
+      }
+      container.appendChild(dots);
+    }
+
+    function initSlide(list) {
+      var data = [];
+      for (var i = 0; i < list.length; i++) {
+        var tmp = {
+          h2: list[i].querySelector('h2').innerHTML,
+          article: list[i].querySelector('article').innerHTML,
+          img: list[i].querySelector('img').getAttribute('src')
+        };
+        data.push(tmp);
+      }
+      // list[loopCountCurrent].classList.add('slide_banner_left');
+      // list[loopCountCurrent].classList.add('slide_banner_center');
+    }
+
+    slideBannerList[loopCountCurrent].classList.remove('hide');
+
+    if (device.desktop()) {
+      initDot(slideBannerList);
+    }
+    if (device.desktop()) {
+      initSlide(slideBannerList);
+    }
+    // loopStart();
   }
-  loopStart();
-  initDot(slideBannerList);
+
+  // TODO handle visibly
+
 </script>
 
 </html>
