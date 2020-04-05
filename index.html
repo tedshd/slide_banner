@@ -28,10 +28,10 @@
     overflow: hidden;
   }
 
-  #slide_banner ul {
-    position:absolute;
-    left:0;
-    top:0;}
+  #slide_banner.mobile ul {
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 
   #slide_banner ul,
@@ -39,15 +39,22 @@
     width: 100%;
     height: 100%;
   }
+
+  #slide_banner.mobile li {
+    float: left;
+    width: 100vw;
+  }
+
   #slide_banner li {
     position: relative;
-    float: left;
   }
+
   #slide_banner li h2,
   #slide_banner li article {
     position: absolute;
     z-index: 1;
   }
+
   #slide_banner li img {
     position: absolute;
     top: 0;
@@ -70,6 +77,7 @@
     height: 100%;
     background: #eee;
   }
+
   #slide_banner #slide_banner_dots {
     position: absolute;
     top: 50%;
@@ -169,6 +177,7 @@
     function initSlide(list) {
       var data = [];
       for (var i = 0; i < list.length; i++) {
+        list[i].classList.remove('hide');
         var tmp = {
           h2: list[i].querySelector('h2').innerHTML,
           article: list[i].querySelector('article').innerHTML,
@@ -176,16 +185,168 @@
         };
         data.push(tmp);
       }
-      // list[loopCountCurrent].classList.add('slide_banner_left');
-      // list[loopCountCurrent].classList.add('slide_banner_center');
+
+
+      var containerUl = container.getElementsByTagName('ul')[0];
+
+      var allLi = containerUl.children;
+
+      //複製一個
+
+      containerUl.innerHTML += containerUl.innerHTML;
+
+      containerUl.style.width = allLi.length * allLi[0].offsetWidth + 'px';
+
+      var halfW = containerUl.offsetWidth / 2;
+
+      var tX = 0;
+
+      var currentCount = 0;
+
+      containerUl.addEventListener('touchstart', function (ev) {
+
+        var downX = ev.targetTouches[0].pageX;
+
+        var disX = downX - tX;
+
+        clearInterval(containerUl.timer);
+
+        function fnMove(ev) {
+
+          tX = ev.targetTouches[0].pageX - disX;
+
+          if (tX < 0) {
+
+            containerUl.style.WebkitTransform = 'translateX(' + tX % halfW + 'px)';
+
+          } else {
+
+            containerUl.style.WebkitTransform = 'translateX(' + (tX % halfW - halfW) % halfW + 'px)';
+
+          }
+
+          ev.preventDefault();
+
+        }
+
+        function fnEnd(ev) {
+
+          var upX = ev.changedTouches[0].pageX;
+
+          if (Math.abs(downX - upX) < 50) {
+            console.log('back', Math.abs(downX - upX));
+
+            startMove(containerUl, -currentCount * allLi[0].offsetWidth);
+
+          } else {
+            console.log(downX, upX);
+            if (downX > upX) { //++
+              console.log('++');
+              currentCount++;
+
+              startMove(containerUl, -currentCount * allLi[0].offsetWidth);
+
+              // updateDots();
+
+            } else {
+              console.log('--');
+              currentCount--;
+
+              startMove(containerUl, -currentCount * allLi[0].offsetWidth);
+
+              // updateDots();
+
+            }
+
+          }
+
+          //完畢
+
+          containerUl.removeEventListener('touchmove', fnMove, false);
+
+          containerUl.removeEventListener('touchend', fnEnd, false);
+
+        }
+
+        containerUl.addEventListener('touchmove', fnMove, false);
+
+        containerUl.addEventListener('touchend', fnEnd, false);
+
+      }, false);
+
+      //按鈕切換
+
+      function updateDots() {
+
+        var aBtn = container.getElementsByTagName('ol')[0].children;
+
+        for (var i = 0; i < aBtn.length; i++) {
+
+          aBtn[i].className = '';
+
+        }
+
+        if (currentCount > 0) {
+
+          aBtn[currentCount % aBtn.length].className = 'on';
+
+        } else {
+
+          aBtn[(currentCount % aBtn.length + aBtn.length) % aBtn.length].className = 'on';
+
+        }
+
+      }
+
+      function startMove(obj, iTarget) {
+        console.log('startMove');
+
+        clearInterval(obj.timer);
+
+        var count = Math.floor(500 / 30);
+
+        var start = tX;
+
+        var dis = iTarget - start;
+
+        var n = 0;
+
+        obj.timer = setInterval(function () {
+
+          n++;
+
+          var a = 1 - n / count;
+
+          tX = start + dis * (1 - a * a * a);
+
+          if (tX < 0) {
+
+            containerUl.style.WebkitTransform = 'translateX(' + tX % halfW + 'px)';
+
+          } else {
+
+            containerUl.style.WebkitTransform = 'translateX(' + (tX % halfW - halfW) % halfW + 'px)';
+
+          }
+
+          if (n == count) {
+
+            clearInterval(obj.timer);
+
+          }
+
+        }, 30);
+
+      }
     }
 
-    slideBannerList[loopCountCurrent].classList.remove('hide');
 
     if (device.desktop()) {
+      slideBannerList[loopCountCurrent].classList.remove('hide');
       initDot(slideBannerList);
     }
-    if (device.desktop()) {
+    if (device.mobile()) {
+      container.classList.add('mobile');
       initSlide(slideBannerList);
     }
     // loopStart();
