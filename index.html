@@ -141,6 +141,8 @@
     slideBannerList = container.querySelectorAll('li');
     slideBannerListLength = slideBannerList.length;
     var loopCountCurrent = 0;
+    var containerUl = container.getElementsByTagName('ul')[0];
+    var touchX = 0;
 
     function loopStart() {
       loop = setInterval(function () {
@@ -175,23 +177,12 @@
     }
 
     function initSlide(list) {
-      var data = [];
       for (var i = 0; i < list.length; i++) {
         list[i].classList.remove('hide');
-        var tmp = {
-          h2: list[i].querySelector('h2').innerHTML,
-          article: list[i].querySelector('article').innerHTML,
-          img: list[i].querySelector('img').getAttribute('src')
-        };
-        data.push(tmp);
       }
-
-
-      var containerUl = container.getElementsByTagName('ul')[0];
-
       var allLi = containerUl.children;
 
-      //複製一個
+      // clone for loop render
 
       containerUl.innerHTML += containerUl.innerHTML;
 
@@ -199,34 +190,22 @@
 
       var halfW = containerUl.offsetWidth / 2;
 
-      var tX = 0;
-
-      var currentCount = 0;
-
       containerUl.addEventListener('touchstart', function (ev) {
 
         var downX = ev.targetTouches[0].pageX;
+        var disX = downX - touchX;
 
-        var disX = downX - tX;
-
+        clearInterval(loop);
         clearInterval(containerUl.timer);
 
         function fnMove(ev) {
-
-          tX = ev.targetTouches[0].pageX - disX;
-
-          if (tX < 0) {
-
-            containerUl.style.WebkitTransform = 'translateX(' + tX % halfW + 'px)';
-
+          touchX = ev.targetTouches[0].pageX - disX;
+          if (touchX < 0) {
+            containerUl.style.WebkitTransform = 'translateX(' + touchX % halfW + 'px)';
           } else {
-
-            containerUl.style.WebkitTransform = 'translateX(' + (tX % halfW - halfW) % halfW + 'px)';
-
+            containerUl.style.WebkitTransform = 'translateX(' + (touchX % halfW - halfW) % halfW + 'px)';
           }
-
           ev.preventDefault();
-
         }
 
         function fnEnd(ev) {
@@ -234,122 +213,94 @@
           var upX = ev.changedTouches[0].pageX;
 
           if (Math.abs(downX - upX) < 50) {
-            console.log('back', Math.abs(downX - upX));
-
-            startMove(containerUl, -currentCount * allLi[0].offsetWidth);
-
+            startMove(containerUl, -loopCountCurrent * allLi[0].offsetWidth);
           } else {
-            console.log(downX, upX);
             if (downX > upX) { //++
-              console.log('++');
-              currentCount++;
-
-              startMove(containerUl, -currentCount * allLi[0].offsetWidth);
-
+              loopCountCurrent++;
+              startMove(containerUl, -loopCountCurrent * allLi[0].offsetWidth);
               // updateDots();
-
+              console.log(loopCountCurrent);
             } else {
-              console.log('--');
-              currentCount--;
-
-              startMove(containerUl, -currentCount * allLi[0].offsetWidth);
-
+              loopCountCurrent--;
+              startMove(containerUl, -loopCountCurrent * allLi[0].offsetWidth);
               // updateDots();
 
             }
-
           }
-
-          //完畢
-
+          loopStartMobile();
           containerUl.removeEventListener('touchmove', fnMove, false);
-
           containerUl.removeEventListener('touchend', fnEnd, false);
 
         }
 
         containerUl.addEventListener('touchmove', fnMove, false);
-
         containerUl.addEventListener('touchend', fnEnd, false);
 
       }, false);
 
-      //按鈕切換
-
       function updateDots() {
-
         var aBtn = container.getElementsByTagName('ol')[0].children;
 
         for (var i = 0; i < aBtn.length; i++) {
-
           aBtn[i].className = '';
-
         }
 
-        if (currentCount > 0) {
-
-          aBtn[currentCount % aBtn.length].className = 'on';
-
+        if (loopCountCurrent > 0) {
+          aBtn[loopCountCurrent % aBtn.length].className = 'on';
         } else {
-
-          aBtn[(currentCount % aBtn.length + aBtn.length) % aBtn.length].className = 'on';
-
+          aBtn[(loopCountCurrent % aBtn.length + aBtn.length) % aBtn.length].className = 'on';
         }
 
       }
 
       function startMove(obj, iTarget) {
-        console.log('startMove');
 
         clearInterval(obj.timer);
 
         var count = Math.floor(500 / 30);
-
-        var start = tX;
-
+        var start = touchX;
         var dis = iTarget - start;
-
         var n = 0;
 
         obj.timer = setInterval(function () {
-
           n++;
-
           var a = 1 - n / count;
 
-          tX = start + dis * (1 - a * a * a);
+          touchX = start + dis * (1 - a * a * a);
 
-          if (tX < 0) {
-
-            containerUl.style.WebkitTransform = 'translateX(' + tX % halfW + 'px)';
-
+          if (touchX < 0) {
+            containerUl.style.WebkitTransform = 'translateX(' + touchX % halfW + 'px)';
           } else {
-
-            containerUl.style.WebkitTransform = 'translateX(' + (tX % halfW - halfW) % halfW + 'px)';
-
+            containerUl.style.WebkitTransform = 'translateX(' + (touchX % halfW - halfW) % halfW + 'px)';
           }
 
           if (n == count) {
-
             clearInterval(obj.timer);
-
           }
 
         }, 30);
-
       }
+
+      function loopStartMobile() {
+        loop = setInterval(function () {
+          loopCountCurrent++;
+          startMove(containerUl, -loopCountCurrent * allLi[0].offsetWidth);
+        }, loopTime);
+      }
+
+      loopStartMobile();
     }
 
 
     if (device.desktop()) {
       slideBannerList[loopCountCurrent].classList.remove('hide');
       initDot(slideBannerList);
+      loopStart();
     }
     if (device.mobile()) {
       container.classList.add('mobile');
       initSlide(slideBannerList);
     }
-    // loopStart();
   }
 
   // TODO handle visibly
