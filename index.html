@@ -55,6 +55,11 @@
     z-index: 1;
   }
 
+  #slide_banner_title {
+    position: absolute;
+    z-index: 1;
+  }
+
   #slide_banner li img {
     position: absolute;
     top: 0;
@@ -87,35 +92,39 @@
 
 <body>
   <section id="slide_banner" class="slide_banner_loading">
+    <section id="slide_banner_title" class="hide">
+      <h2></h2>
+      <article></article>
+    </section>
     <ul>
       <li class="hide">
-        <h2>title1</h2>
-        <article>content1</article>
+        <h2 class="hide">title1</h2>
+        <article class="hide">content1</article>
         <img src="./1.png" alt="">
       </li>
       <li class="hide">
-        <h2>title2</h2>
-        <article>content2</article>
+        <h2 class="hide">title2</h2>
+        <article class="hide">content2</article>
         <img src="./2.png" alt="">
       </li>
       <li class="hide">
-        <h2>title3</h2>
-        <article>content3</article>
+        <h2 class="hide">title3</h2>
+        <article class="hide">content3</article>
         <img src="./3.png" alt="">
       </li>
       <li class="hide">
-        <h2>title4</h2>
-        <article>content4</article>
+        <h2 class="hide">title4</h2>
+        <article class="hide">content4</article>
         <img src="./4.png" alt="">
       </li>
       <li class="hide">
-        <h2>title5</h2>
-        <article>content5</article>
+        <h2 class="hide">title5</h2>
+        <article class="hide">content5</article>
         <img src="./5.png" alt="">
       </li>
       <li class="hide">
-        <h2>title6</h2>
-        <article>content6</article>
+        <h2 class="hide">title6</h2>
+        <article class="hide">content6</article>
         <img src="./6.png" alt="">
       </li>
     </ul>
@@ -129,14 +138,13 @@
   });
 
   function slideBanner(arg) {
-    var t = arg.time || 3000;
+    var loopTime = arg.time || 3000;
     var container = arg.container;
     if (!container) {
       console.error('slideBanner: not set container');
       return;
     }
     var loop;
-    var loopTime = 3000;
     container.classList.remove('slide_banner_loading');
     slideBannerList = container.querySelectorAll('li');
     slideBannerListLength = slideBannerList.length;
@@ -159,6 +167,8 @@
       var dots = document.createElement('div');
       dots.setAttribute('id', 'slide_banner_dots');
       for (var i = 0; i < list.length; i++) {
+        list[i].querySelector('h2').classList.remove('hide');
+        list[i].querySelector('article').classList.remove('hide');
         var dot = document.createElement('div');
         dot.setAttribute('class', 'slide_banner_dot');
         dot.setAttribute('data-count', i);
@@ -177,10 +187,27 @@
     }
 
     function initSlide(list) {
+      var data = [];
       for (var i = 0; i < list.length; i++) {
         list[i].classList.remove('hide');
+        var tmp = {
+          h2: list[i].querySelector('h2').innerHTML,
+          article: list[i].querySelector('article').innerHTML,
+          img: list[i].querySelector('img').getAttribute('src')
+        };
+        data.push(tmp);
       }
+      var title = document.querySelector('#slide_banner_title');
+      title.classList.remove('hide');
+      initTitle();
+
+      function initTitle() {
+        title.querySelector('h2').innerHTML = data[loopCountCurrent].h2;
+        title.querySelector('article').innerHTML = data[loopCountCurrent].article;
+      }
+
       var allLi = containerUl.children;
+      var counter = 0;
 
       // clone for loop render
 
@@ -213,16 +240,24 @@
           var upX = ev.changedTouches[0].pageX;
 
           if (Math.abs(downX - upX) < 50) {
-            startMove(containerUl, -loopCountCurrent * allLi[0].offsetWidth);
+            startMove(containerUl, -counter * allLi[0].offsetWidth);
           } else {
             if (downX > upX) { //++
               loopCountCurrent++;
-              startMove(containerUl, -loopCountCurrent * allLi[0].offsetWidth);
+              if (loopCountCurrent === slideBannerList.length) {
+                loopCountCurrent = 0;
+              }
+              counter++;
+              startMove(containerUl, -counter * allLi[0].offsetWidth);
               // updateDots();
-              console.log(loopCountCurrent);
+              console.log(counter);
             } else {
               loopCountCurrent--;
-              startMove(containerUl, -loopCountCurrent * allLi[0].offsetWidth);
+              if (loopCountCurrent < 0) {
+                loopCountCurrent = slideBannerList.length - 1;
+              }
+              counter--;
+              startMove(containerUl, -counter * allLi[0].offsetWidth);
               // updateDots();
 
             }
@@ -245,10 +280,10 @@
           aBtn[i].className = '';
         }
 
-        if (loopCountCurrent > 0) {
-          aBtn[loopCountCurrent % aBtn.length].className = 'on';
+        if (counter > 0) {
+          aBtn[counter % aBtn.length].className = 'on';
         } else {
-          aBtn[(loopCountCurrent % aBtn.length + aBtn.length) % aBtn.length].className = 'on';
+          aBtn[(counter % aBtn.length + aBtn.length) % aBtn.length].className = 'on';
         }
 
       }
@@ -267,7 +302,6 @@
           var a = 1 - n / count;
 
           touchX = start + dis * (1 - a * a * a);
-
           if (touchX < 0) {
             containerUl.style.WebkitTransform = 'translateX(' + touchX % halfW + 'px)';
           } else {
@@ -276,6 +310,7 @@
 
           if (n == count) {
             clearInterval(obj.timer);
+            initTitle();
           }
 
         }, 30);
@@ -284,7 +319,12 @@
       function loopStartMobile() {
         loop = setInterval(function () {
           loopCountCurrent++;
-          startMove(containerUl, -loopCountCurrent * allLi[0].offsetWidth);
+          if (loopCountCurrent === slideBannerList.length) {
+            loopCountCurrent = 0;
+          }
+          counter++;
+          startMove(containerUl, -counter * allLi[0].offsetWidth);
+          console.log(loopCountCurrent);
         }, loopTime);
       }
 
@@ -302,8 +342,6 @@
       initSlide(slideBannerList);
     }
   }
-
-  // TODO handle visibly
 
 </script>
 
