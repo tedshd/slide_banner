@@ -1,348 +1,346 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title></title>
-  <meta name="description" content="$3">
-  <meta name="keywords" content="$4">
-  <link rel="stylesheet" href="https://necolas.github.io/normalize.css/3.0.2/normalize.css">
-  <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset200802.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/device.js/0.2.7/device.min.js"></script>
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title></title>
+    <meta name="description" content="$3">
+    <meta name="keywords" content="$4">
+    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/3.0.2/normalize.css">
+    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset200802.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/device.js/0.2.7/device.min.js"></script>
+  </head>
 
-<style>
-  .hide {
-    display: none;
-  }
+  <style>
+    .hide {
+      display: none;
+    }
 
-  #slide_banner {
-    position: relative;
-    width: 100vw;
-    height: 80vh;
-    background: #ddd;
-    overflow: hidden;
-  }
+    #slide_banner {
+      position: relative;
+      width: 100vw;
+      height: 80vh;
+      background: #ddd;
+      overflow: hidden;
+    }
 
-  #slide_banner.mobile ul {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
+    #slide_banner.mobile ul {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
 
-  #slide_banner ul,
-  #slide_banner li {
-    width: 100%;
-    height: 100%;
-  }
+    #slide_banner ul,
+    #slide_banner li {
+      width: 100%;
+      height: 100%;
+    }
 
-  #slide_banner.mobile li {
-    float: left;
-    width: 100vw;
-  }
+    #slide_banner.mobile li {
+      float: left;
+      width: 100vw;
+    }
 
-  #slide_banner li {
-    position: relative;
-  }
+    #slide_banner li {
+      position: relative;
+    }
 
-  #slide_banner li h2,
-  #slide_banner li article {
-    position: absolute;
-    z-index: 1;
-  }
+    #slide_banner li h2,
+    #slide_banner li article {
+      position: absolute;
+      z-index: 1;
+    }
 
-  #slide_banner_title {
-    position: absolute;
-    z-index: 1;
-  }
+    #slide_banner_title {
+      position: absolute;
+      z-index: 1;
+    }
 
-  #slide_banner li img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+    #slide_banner li img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-  .slide_banner_loading {
-    position: relative;
-  }
+    .slide_banner_loading {
+      position: relative;
+    }
 
-  .slide_banner_loading:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #eee;
-  }
+    .slide_banner_loading:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #eee;
+    }
 
-  #slide_banner #slide_banner_dots {
-    position: absolute;
-    top: 50%;
-    right: 0;
-  }
-</style>
+    #slide_banner #slide_banner_dots {
+      position: absolute;
+      top: 50%;
+      right: 0;
+    }
+  </style>
 
-<body>
-  <section id="slide_banner" class="slide_banner_loading">
-    <section id="slide_banner_title" class="hide">
-      <h2></h2>
-      <article></article>
+  <body>
+    <section id="slide_banner" class="slide_banner_loading">
+      <section id="slide_banner_title" class="hide">
+        <h2></h2>
+        <article></article>
+      </section>
+      <ul>
+        <li class="hide">
+          <h2 class="hide">title1</h2>
+          <article class="hide">content1</article>
+          <img src="./1.png" alt="">
+        </li>
+        <li class="hide">
+          <h2 class="hide">title2</h2>
+          <article class="hide">content2</article>
+          <img src="./2.png" alt="">
+        </li>
+        <li class="hide">
+          <h2 class="hide">title3</h2>
+          <article class="hide">content3</article>
+          <img src="./3.png" alt="">
+        </li>
+        <li class="hide">
+          <h2 class="hide">title4</h2>
+          <article class="hide">content4</article>
+          <img src="./4.png" alt="">
+        </li>
+        <li class="hide">
+          <h2 class="hide">title5</h2>
+          <article class="hide">content5</article>
+          <img src="./5.png" alt="">
+        </li>
+        <li class="hide">
+          <h2 class="hide">title6</h2>
+          <article class="hide">content6</article>
+          <img src="./6.png" alt="">
+        </li>
+      </ul>
     </section>
-    <ul>
-      <li class="hide">
-        <h2 class="hide">title1</h2>
-        <article class="hide">content1</article>
-        <img src="./1.png" alt="">
-      </li>
-      <li class="hide">
-        <h2 class="hide">title2</h2>
-        <article class="hide">content2</article>
-        <img src="./2.png" alt="">
-      </li>
-      <li class="hide">
-        <h2 class="hide">title3</h2>
-        <article class="hide">content3</article>
-        <img src="./3.png" alt="">
-      </li>
-      <li class="hide">
-        <h2 class="hide">title4</h2>
-        <article class="hide">content4</article>
-        <img src="./4.png" alt="">
-      </li>
-      <li class="hide">
-        <h2 class="hide">title5</h2>
-        <article class="hide">content5</article>
-        <img src="./5.png" alt="">
-      </li>
-      <li class="hide">
-        <h2 class="hide">title6</h2>
-        <article class="hide">content6</article>
-        <img src="./6.png" alt="">
-      </li>
-    </ul>
-  </section>
-</body>
-<script>
+  </body>
+  <script>
 
-  slideBanner({
-    time: 3000,
-    container: document.querySelector('#slide_banner')
-  });
+    slideBanner({
+      time: 3000,
+      container: document.querySelector('#slide_banner')
+    });
 
-  function slideBanner(arg) {
-    var loopTime = arg.time || 3000;
-    var container = arg.container;
-    if (!container) {
-      console.error('slideBanner: not set container');
-      return;
-    }
-    var loop;
-    container.classList.remove('slide_banner_loading');
-    slideBannerList = container.querySelectorAll('li');
-    slideBannerListLength = slideBannerList.length;
-    var loopCountCurrent = 0;
-    var containerUl = container.getElementsByTagName('ul')[0];
-    var touchX = 0;
-
-    function loopStart() {
-      loop = setInterval(function () {
-        slideBannerList[loopCountCurrent].classList.add('hide');
-        loopCountCurrent++;
-        if (loopCountCurrent === slideBannerListLength) {
-          loopCountCurrent = 0;
-        }
-        slideBannerList[loopCountCurrent].classList.remove('hide');
-      }, loopTime);
-    }
-
-    function initDot(list) {
-      var dots = document.createElement('div');
-      dots.setAttribute('id', 'slide_banner_dots');
-      for (var i = 0; i < list.length; i++) {
-        list[i].querySelector('h2').classList.remove('hide');
-        list[i].querySelector('article').classList.remove('hide');
-        var dot = document.createElement('div');
-        dot.setAttribute('class', 'slide_banner_dot');
-        dot.setAttribute('data-count', i);
-        dot.innerHTML = i + 1;
-        dot.addEventListener('click', function () {
-          clearInterval(loop);
-          var count = this.getAttribute('data-count');
-          slideBannerList[loopCountCurrent].classList.add('hide');
-          slideBannerList[count].classList.remove('hide');
-          loopCountCurrent = count;
-          loopStart();
-        });
-        dots.appendChild(dot);
+    function slideBanner(arg) {
+      var loopTime = arg.time || 3000;
+      var container = arg.container;
+      if (!container) {
+        console.error('slideBanner: not set container');
+        return;
       }
-      container.appendChild(dots);
-    }
+      var loop;
+      container.classList.remove('slide_banner_loading');
+      slideBannerList = container.querySelectorAll('li');
+      slideBannerListLength = slideBannerList.length;
+      var loopCountCurrent = 0;
+      var containerUl = container.getElementsByTagName('ul')[0];
+      var touchX = 0;
 
-    function initSlide(list) {
-      var data = [];
-      for (var i = 0; i < list.length; i++) {
-        list[i].classList.remove('hide');
-        var tmp = {
-          h2: list[i].querySelector('h2').innerHTML,
-          article: list[i].querySelector('article').innerHTML,
-          img: list[i].querySelector('img').getAttribute('src')
-        };
-        data.push(tmp);
-      }
-      var title = document.querySelector('#slide_banner_title');
-      title.classList.remove('hide');
-      initTitle();
-
-      function initTitle() {
-        title.querySelector('h2').innerHTML = data[loopCountCurrent].h2;
-        title.querySelector('article').innerHTML = data[loopCountCurrent].article;
-      }
-
-      var allLi = containerUl.children;
-      var counter = 0;
-
-      // clone for loop render
-
-      containerUl.innerHTML += containerUl.innerHTML;
-
-      containerUl.style.width = allLi.length * allLi[0].offsetWidth + 'px';
-
-      var halfW = containerUl.offsetWidth / 2;
-
-      containerUl.addEventListener('touchstart', function (ev) {
-
-        var downX = ev.targetTouches[0].pageX;
-        var disX = downX - touchX;
-
-        clearInterval(loop);
-        clearInterval(containerUl.timer);
-
-        function fnMove(ev) {
-          touchX = ev.targetTouches[0].pageX - disX;
-          if (touchX < 0) {
-            containerUl.style.WebkitTransform = 'translateX(' + touchX % halfW + 'px)';
-          } else {
-            containerUl.style.WebkitTransform = 'translateX(' + (touchX % halfW - halfW) % halfW + 'px)';
-          }
-          ev.preventDefault();
-        }
-
-        function fnEnd(ev) {
-
-          var upX = ev.changedTouches[0].pageX;
-
-          if (Math.abs(downX - upX) < 50) {
-            startMove(containerUl, -counter * allLi[0].offsetWidth);
-          } else {
-            if (downX > upX) { //++
-              loopCountCurrent++;
-              if (loopCountCurrent === slideBannerList.length) {
-                loopCountCurrent = 0;
-              }
-              counter++;
-              startMove(containerUl, -counter * allLi[0].offsetWidth);
-              // updateDots();
-              console.log(counter);
-            } else {
-              loopCountCurrent--;
-              if (loopCountCurrent < 0) {
-                loopCountCurrent = slideBannerList.length - 1;
-              }
-              counter--;
-              startMove(containerUl, -counter * allLi[0].offsetWidth);
-              // updateDots();
-
-            }
-          }
-          loopStartMobile();
-          containerUl.removeEventListener('touchmove', fnMove, false);
-          containerUl.removeEventListener('touchend', fnEnd, false);
-
-        }
-
-        containerUl.addEventListener('touchmove', fnMove, false);
-        containerUl.addEventListener('touchend', fnEnd, false);
-
-      }, false);
-
-      function updateDots() {
-        var aBtn = container.getElementsByTagName('ol')[0].children;
-
-        for (var i = 0; i < aBtn.length; i++) {
-          aBtn[i].className = '';
-        }
-
-        if (counter > 0) {
-          aBtn[counter % aBtn.length].className = 'on';
-        } else {
-          aBtn[(counter % aBtn.length + aBtn.length) % aBtn.length].className = 'on';
-        }
-
-      }
-
-      function startMove(obj, iTarget) {
-
-        clearInterval(obj.timer);
-
-        var count = Math.floor(500 / 30);
-        var start = touchX;
-        var dis = iTarget - start;
-        var n = 0;
-
-        obj.timer = setInterval(function () {
-          n++;
-          var a = 1 - n / count;
-
-          touchX = start + dis * (1 - a * a * a);
-          if (touchX < 0) {
-            containerUl.style.WebkitTransform = 'translateX(' + touchX % halfW + 'px)';
-          } else {
-            containerUl.style.WebkitTransform = 'translateX(' + (touchX % halfW - halfW) % halfW + 'px)';
-          }
-
-          if (n == count) {
-            clearInterval(obj.timer);
-            initTitle();
-          }
-
-        }, 30);
-      }
-
-      function loopStartMobile() {
+      function loopStart() {
         loop = setInterval(function () {
+          slideBannerList[loopCountCurrent].classList.add('hide');
           loopCountCurrent++;
-          if (loopCountCurrent === slideBannerList.length) {
+          if (loopCountCurrent === slideBannerListLength) {
             loopCountCurrent = 0;
           }
-          counter++;
-          startMove(containerUl, -counter * allLi[0].offsetWidth);
-          console.log(loopCountCurrent);
+          slideBannerList[loopCountCurrent].classList.remove('hide');
         }, loopTime);
       }
 
-      loopStartMobile();
-    }
+      function initDot(list) {
+        var dots = document.createElement('div');
+        dots.setAttribute('id', 'slide_banner_dots');
+        for (var i = 0; i < list.length; i++) {
+          list[i].querySelector('h2').classList.remove('hide');
+          list[i].querySelector('article').classList.remove('hide');
+          var dot = document.createElement('div');
+          dot.setAttribute('class', 'slide_banner_dot');
+          dot.setAttribute('data-count', i);
+          dot.innerHTML = i + 1;
+          dot.addEventListener('click', function () {
+            clearInterval(loop);
+            var count = this.getAttribute('data-count');
+            slideBannerList[loopCountCurrent].classList.add('hide');
+            slideBannerList[count].classList.remove('hide');
+            loopCountCurrent = count;
+            loopStart();
+          });
+          dots.appendChild(dot);
+        }
+        container.appendChild(dots);
+      }
+
+      function initSlide(list) {
+        var data = [];
+        for (var i = 0; i < list.length; i++) {
+          list[i].classList.remove('hide');
+          var tmp = {
+            h2: list[i].querySelector('h2').innerHTML,
+            article: list[i].querySelector('article').innerHTML,
+            img: list[i].querySelector('img').getAttribute('src')
+          };
+          data.push(tmp);
+        }
+        var title = document.querySelector('#slide_banner_title');
+        title.classList.remove('hide');
+        initTitle();
+
+        function initTitle() {
+          title.querySelector('h2').innerHTML = data[loopCountCurrent].h2;
+          title.querySelector('article').innerHTML = data[loopCountCurrent].article;
+        }
+
+        var allLi = containerUl.children;
+        var counter = 0;
+
+        // clone for loop render
+
+        containerUl.innerHTML += containerUl.innerHTML;
+
+        containerUl.style.width = allLi.length * allLi[0].offsetWidth + 'px';
+
+        var halfW = containerUl.offsetWidth / 2;
+
+        containerUl.addEventListener('touchstart', function (ev) {
+
+          var downX = ev.targetTouches[0].pageX;
+          var disX = downX - touchX;
+
+          clearInterval(loop);
+          clearInterval(containerUl.timer);
+
+          function fnMove(ev) {
+            touchX = ev.targetTouches[0].pageX - disX;
+            if (touchX < 0) {
+              containerUl.style.WebkitTransform = 'translateX(' + touchX % halfW + 'px)';
+            } else {
+              containerUl.style.WebkitTransform = 'translateX(' + (touchX % halfW - halfW) % halfW + 'px)';
+            }
+            ev.preventDefault();
+          }
+
+          function fnEnd(ev) {
+
+            var upX = ev.changedTouches[0].pageX;
+
+            if (Math.abs(downX - upX) < 50) {
+              startMove(containerUl, -counter * allLi[0].offsetWidth, Math.floor(300 / 30));
+            } else {
+              if (downX > upX) { //++
+                loopCountCurrent++;
+                if (loopCountCurrent === slideBannerList.length) {
+                  loopCountCurrent = 0;
+                }
+                counter++;
+                startMove(containerUl, -counter * allLi[0].offsetWidth, Math.floor(300 / 30));
+                // updateDots();
+              } else {
+                loopCountCurrent--;
+                if (loopCountCurrent < 0) {
+                  loopCountCurrent = slideBannerList.length - 1;
+                }
+                counter--;
+                startMove(containerUl, -counter * allLi[0].offsetWidth, Math.floor(300 / 30));
+                // updateDots();
+
+              }
+            }
+            loopStartMobile();
+            containerUl.removeEventListener('touchmove', fnMove, false);
+            containerUl.removeEventListener('touchend', fnEnd, false);
+
+          }
+
+          containerUl.addEventListener('touchmove', fnMove, false);
+          containerUl.addEventListener('touchend', fnEnd, false);
+
+        }, false);
+
+        function updateDots() {
+          var aBtn = container.getElementsByTagName('ol')[0].children;
+
+          for (var i = 0; i < aBtn.length; i++) {
+            aBtn[i].className = '';
+          }
+
+          if (counter > 0) {
+            aBtn[counter % aBtn.length].className = 'on';
+          } else {
+            aBtn[(counter % aBtn.length + aBtn.length) % aBtn.length].className = 'on';
+          }
+
+        }
+
+        function startMove(obj, iTarget, transTime) {
+
+          clearInterval(obj.timer);
+
+          var count = transTime || Math.floor(500 / 30);
+          var start = touchX;
+          var dis = iTarget - start;
+          var n = 0;
+
+          obj.timer = setInterval(function () {
+            n++;
+            var a = 1 - n / count;
+
+            touchX = start + dis * (1 - a * a * a);
+            if (touchX < 0) {
+              containerUl.style.WebkitTransform = 'translateX(' + touchX % halfW + 'px)';
+            } else {
+              containerUl.style.WebkitTransform = 'translateX(' + (touchX % halfW - halfW) % halfW + 'px)';
+            }
+
+            if (n == count) {
+              clearInterval(obj.timer);
+              initTitle();
+            }
+
+          }, 30);
+        }
+
+        function loopStartMobile() {
+          loop = setInterval(function () {
+            loopCountCurrent++;
+            if (loopCountCurrent === slideBannerList.length) {
+              loopCountCurrent = 0;
+            }
+            counter++;
+            startMove(containerUl, -counter * allLi[0].offsetWidth);
+          }, loopTime);
+        }
+
+        loopStartMobile();
+      }
 
 
-    if (device.desktop()) {
-      slideBannerList[loopCountCurrent].classList.remove('hide');
-      initDot(slideBannerList);
-      loopStart();
+      if (device.desktop()) {
+        slideBannerList[loopCountCurrent].classList.remove('hide');
+        initDot(slideBannerList);
+        loopStart();
+      }
+      if (device.mobile()) {
+        container.classList.add('mobile');
+        initSlide(slideBannerList);
+      }
     }
-    if (device.mobile()) {
-      container.classList.add('mobile');
-      initSlide(slideBannerList);
-    }
-  }
 
-</script>
+  </script>
 
 </html>
